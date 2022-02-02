@@ -120,6 +120,7 @@ class CommandProcessorThread extends Thread {
 			// comprobamos que la peticion no es vacia
 			if (httpRequest == null) {
 				LOGGER.warning("Se ha recibido una peticion vacia"); //$NON-NLS-1$
+				sendData(createPANHttpResponse(), this.localSocket, ""); 
 			}
 			else {
 				LOGGER.fine("Peticion HTTP recibida:\n" + httpRequest); //$NON-NLS-1$
@@ -481,6 +482,18 @@ class CommandProcessorThread extends Thread {
 		} catch (final IOException ex) {
 			LOGGER.warning("No se ha podido informar a la aplicacion del error de memoria: " + ex); //$NON-NLS-1$
 		}
+	}
+	
+	private static byte[] createPANHttpResponse() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("HTTP/1.1 204 No Content\n"); //$NON-NLS-1$
+		sb.append("Connection: close\n"); //$NON-NLS-1$
+		sb.append("Server: Cliente @firma\n"); //$NON-NLS-1$
+		sb.append("Access-Control-Allow-Private-Network: true\n");//$NON-NLS-1$
+		sb.append("Access-Control-Allow-Origin: *\n"); //$NON-NLS-1$
+		
+		sb.append('\n');
+		return sb.toString().getBytes(StandardCharsets.UTF_8);
 	}
 
 	/** Crea una respuesta HTTP para enviar a traves del <i>socket</i>.
