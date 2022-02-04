@@ -23,7 +23,7 @@ import java.util.Map;
 
 import javax.swing.JLabel;
 
-import es.gob.afirma.standalone.LookAndFeelManager;
+//import es.gob.afirma.standalone.LookAndFeelManager;
 
 /**
  * Gestor de foco y rat&oacute;n en JLabel con enlaces.
@@ -47,11 +47,7 @@ public final class LabelLinkManager extends KeyAdapter implements FocusListener,
     	final Map attributes = font.getAttributes();
     	attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
     	this.label.setFont(font.deriveFont(attributes));
-    	if (!LookAndFeelManager.HIGH_CONTRAST) {
-        	this.label.setForeground(Color.BLUE);
-    	} else {
-        	this.label.setForeground(Color.YELLOW);
-    	}
+       	this.label.setForeground(Color.BLUE);
     	this.label.setBackground(null);
     	this.label.setCursor(new Cursor(Cursor.HAND_CURSOR));
     	this.label.setOpaque(true);
@@ -69,23 +65,14 @@ public final class LabelLinkManager extends KeyAdapter implements FocusListener,
     @Override
     public void focusGained(final FocusEvent e) {
     	this.label.setOpaque(true);
-    	if (!LookAndFeelManager.HIGH_CONTRAST) {
-        	this.label.setForeground(Color.WHITE);
-    	} else {
-        	this.label.setForeground(Color.YELLOW);
-    	}
-    	this.label.setBackground(Color.blue);
+        this.label.setBackground(Color.WHITE);
     	this.label.repaint();
     }
 
     @Override
     public void focusLost(final FocusEvent e) {
     	this.label.setOpaque(false);
-    	if (!LookAndFeelManager.HIGH_CONTRAST) {
-        	this.label.setForeground(Color.BLUE);
-    	} else {
-        	this.label.setForeground(Color.YELLOW);
-    	}
+       	this.label.setForeground(Color.BLUE);
     	this.label.setBackground(null);
     	this.label.repaint();
     }

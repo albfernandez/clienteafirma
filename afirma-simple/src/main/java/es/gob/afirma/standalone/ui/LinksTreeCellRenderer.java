@@ -40,25 +40,11 @@ final class LinksTreeCellRenderer extends DefaultTreeCellRenderer {
         	final JLabel linkLbl = new JLabel();
         	linkLbl.getAccessibleContext().setAccessibleName(SimpleAfirmaMessages.getString("SignDataPanel.46") + " " + getText());  //$NON-NLS-1$//$NON-NLS-2$
 
-        	if (focus) {
-        		linkLbl.setText(getText());
-        		linkLbl.setOpaque(true);
-        		if (!LookAndFeelManager.HIGH_CONTRAST) {
-        			linkLbl.setForeground(Color.WHITE);
-            		linkLbl.setBackground(Color.decode("#39698a")); //$NON-NLS-1$
-        		} else {
-        			linkLbl.setForeground(Color.YELLOW);
-            		linkLbl.setBackground(Color.BLUE);
-        		}
-        	} else {
-        		linkLbl.setText(getText());
-        		if (!LookAndFeelManager.HIGH_CONTRAST) {
-        			linkLbl.setForeground(Color.BLUE);
-        		} else {
-        			linkLbl.setForeground(Color.YELLOW);
-        		}
-        		linkLbl.setOpaque(false);
-        	}
+       		linkLbl.setText(getText());
+        	linkLbl.setOpaque(true);
+        	linkLbl.setForeground(Color.BLUE);
+        	linkLbl.setBackground(Color.WHITE);
+      
 
         	final Font font = linkLbl.getFont();
         	final Map attributes = font.getAttributes();

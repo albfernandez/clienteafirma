@@ -62,6 +62,9 @@ final class SignPanelFilePanel extends JPanel implements Scrollable {
         if (!LookAndFeelManager.HIGH_CONTRAST && !Platform.OS.MACOSX.equals(Platform.getOS())) {
         	bgColor = LookAndFeelManager.WINDOW_COLOR;
         }
+        if (Platform.OS.LINUX.equals(Platform.getOS())) {
+        	bgColor = LookAndFeelManager.WINDOW_COLOR;
+        }
         setBackground(bgColor);
 
         // Panel con el detalle del documenot

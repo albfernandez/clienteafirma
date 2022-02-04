@@ -108,7 +108,7 @@ public final class VisorPanel extends JPanel implements KeyListener, PluginButto
     }
 
     private void createUI(final File signFile, final byte[] sign, final boolean addReloadButton) {
-        if (!LookAndFeelManager.HIGH_CONTRAST) {
+        if (LookAndFeelManager.HIGH_CONTRAST) {
             setBackground(LookAndFeelManager.WINDOW_COLOR);
         }
         setLayout(new GridBagLayout());

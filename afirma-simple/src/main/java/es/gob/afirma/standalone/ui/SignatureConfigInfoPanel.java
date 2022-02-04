@@ -145,7 +145,7 @@ public class SignatureConfigInfoPanel extends JPanel {
 		final JLabel hlLabel = new JLabel(" - " + text); //$NON-NLS-1$
 
 		hlLabel.setFocusable(true);
-		hlLabel.setForeground(LookAndFeelManager.HIGH_CONTRAST ? Color.yellow : Color.blue);
+		hlLabel.setForeground(Color.blue);
     	final Font font = hlLabel.getFont();
     	final Map attributes = font.getAttributes();
     	attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
