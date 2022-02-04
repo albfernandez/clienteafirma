@@ -50,7 +50,7 @@
 	</distributionManagement>
 	
 	<properties>
-		<clienteafirma.version>1.8-SNAPSHOT</clienteafirma.version>
+		<clienteafirma.version>1.7.202202.2</clienteafirma.version>
 		<jmulticard.version>1.7</jmulticard.version>
 		<afirma.lib.itex.version>1.4</afirma.lib.itex.version>
 		<spongycastle.version>1.58.0.0</spongycastle.version>
