@@ -182,6 +182,7 @@ public final class Updater {
 
 		// Miramos en la configuracion de la aplicacion que el usuario ha establecido mediante el UI.
 		boolean omitCheck = !PreferencesManager.getBoolean(PreferencesManager.PREFERENCE_GENERAL_UPDATECHECK);
+		omitCheck=true;
 
 		// Comprobamos si ya se ha realizado la comprobacion de actualizaciones hoy
 		if (!omitCheck)

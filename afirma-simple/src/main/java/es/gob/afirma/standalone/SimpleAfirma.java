@@ -623,37 +623,8 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 		HttpManager.setSecureConnections(
 				PreferencesManager.getBoolean(PreferencesManager.PREFERENCE_GENERAL_SECURE_CONNECTIONS));
 
-       	// Comprobamos si es necesario buscar actualizaciones
-       	if (updatesEnabled) { // Comprobamos si se desactivaron desde fuera
-			updatesEnabled = !Boolean.getBoolean(AVOID_UPDATE_CHECK)
-					&& !Boolean.parseBoolean(System.getenv(AVOID_UPDATE_CHECK_ENV));
-       		if (!updatesEnabled) {
-				LOGGER.info("Se ha configurado en el sistema que se omita la busqueda de actualizaciones de AutoFirma" //$NON-NLS-1$
-       					);
-       		}
-       	}
 
-		// Google Analytics
-		if (PreferencesManager.getBoolean(PreferencesManager.PREFERENCE_GENERAL_USEANALYTICS)
-				&& !Boolean.getBoolean(DO_NOT_SEND_ANALYTICS)
-				&& !Boolean.parseBoolean(System.getenv(DO_NOT_SEND_ANALYTICS_ENV))) {
-	    	new Thread(() ->  {
-				// No importamos directamente los paquetes para no crear una dependencia
-				// absoluta de ellos.
-	    			// En AutoFirma WS, podrian no importarse.
-			    	try {
-					final com.dmurph.tracking.AnalyticsConfigData config = new com.dmurph.tracking.AnalyticsConfigData(
-							GOOGLE_ANALYTICS_TRACKING_CODE);
-						final com.dmurph.tracking.JGoogleAnalyticsTracker tracker = new com.dmurph.tracking.JGoogleAnalyticsTracker(
-								config, com.dmurph.tracking.JGoogleAnalyticsTracker.GoogleAnalyticsVersion.V_4_7_2);
-					tracker.trackPageView("AutoFirma", //$NON-NLS-1$
-							"AutoFirma", //$NON-NLS-1$
-							getIp());
-				} catch (final Exception e) {
-			    		LOGGER.warning("Error registrando datos en Google Analytics: " + e); //$NON-NLS-1$
-			    	}
-			}).start();
-				}
+		LOGGER.info("Se ha configurado en el sistema que se omita la busqueda de actualizaciones de AutoFirma"); //$NON-NLS-1$	
 
        	// Propiedades especificas para Mac OS X
         if (Platform.OS.MACOSX.equals(Platform.getOS())) {
@@ -683,12 +654,9 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
     		}
         }
 
-    	// Comprobamos actualizaciones si estan habilitadas
-        if (updatesEnabled && PreferencesManager.getBoolean(PreferencesManager.PREFERENCE_GENERAL_UPDATECHECK)) {
-			Updater.checkForUpdates(null);
-		} else {
-			LOGGER.info("No se buscaran nuevas versiones de la aplicacion"); //$NON-NLS-1$
-		}
+
+		LOGGER.info("No se buscaran nuevas versiones de la aplicacion"); //$NON-NLS-1$
+		
 
     	try {
     		// Invocacion por protocolo
