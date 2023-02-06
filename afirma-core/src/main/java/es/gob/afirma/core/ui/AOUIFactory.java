@@ -62,7 +62,7 @@ public final class AOUIFactory {
                 throw new UnsupportedOperationException("No se soporta GUI en Android"); //$NON-NLS-1$
             }
         	final String uiManagerClassName;
-            if (Platform.OS.MACOSX.equals(Platform.getOS()) || Platform.OS.LINUX.equals(Platform.getOS()) {
+            if (Platform.OS.MACOSX.equals(Platform.getOS()) || Platform.OS.LINUX.equals(Platform.getOS())) {
             	uiManagerClassName = "es.gob.afirma.ui.core.jse.AWTUIManager"; //$NON-NLS-1$
             }
             else {
