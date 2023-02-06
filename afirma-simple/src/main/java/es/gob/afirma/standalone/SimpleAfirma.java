@@ -104,7 +104,6 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 	 */
 	private static final int DEFAULT_WINDOW_HEIGHT = 580;
 
-	private static final String GOOGLE_ANALYTICS_TRACKING_CODE = "UA-41615516-4"; //$NON-NLS-1$
 	private static final String IP_DISCOVERY_AUTOMATION = "http://checkip.amazonaws.com"; //$NON-NLS-1$
 
 	private static final String SYSTEM_PROPERTY_DEBUG_FILE = "afirma_debug"; //$NON-NLS-1$
@@ -131,7 +130,7 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 	 * Indica si esta permitida la b&uacute;squeda de actualizaciones de la
 	 * aplicaci&oacute;n.
 	 */
-    private static boolean updatesEnabled = true;
+    private static boolean updatesEnabled = false;
 
 	/**
 	 * Propiedad Java que hay que establecer (a nivel de JVM) a <code>true</code>
@@ -637,37 +636,9 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 		HttpManager.setSecureDomains(
 				PreferencesManager.get(PreferencesManager.PREFERENCE_GENERAL_SECURE_DOMAINS_LIST));
 
-       	// Comprobamos si es necesario buscar actualizaciones
-       	if (updatesEnabled) { // Comprobamos si se desactivaron desde fuera
-			updatesEnabled = !Boolean.getBoolean(AVOID_UPDATE_CHECK)
-					&& !Boolean.parseBoolean(System.getenv(AVOID_UPDATE_CHECK_ENV));
-       		if (!updatesEnabled) {
-				LOGGER.info("Se ha configurado en el sistema que se omita la busqueda de actualizaciones de AutoFirma" //$NON-NLS-1$
-       					);
-       		}
-       	}
-
-		// Google Analytics
-		if (PreferencesManager.getBoolean(PreferencesManager.PREFERENCE_GENERAL_USEANALYTICS)
-				&& !Boolean.getBoolean(DO_NOT_SEND_ANALYTICS)
-				&& !Boolean.parseBoolean(System.getenv(DO_NOT_SEND_ANALYTICS_ENV))) {
-	    	new Thread(() ->  {
-				// No importamos directamente los paquetes para no crear una dependencia
-				// absoluta de ellos.
-	    			// En AutoFirma WS, podrian no importarse.
-			    	try {
-					final com.dmurph.tracking.AnalyticsConfigData config = new com.dmurph.tracking.AnalyticsConfigData(
-							GOOGLE_ANALYTICS_TRACKING_CODE);
-						final com.dmurph.tracking.JGoogleAnalyticsTracker tracker = new com.dmurph.tracking.JGoogleAnalyticsTracker(
-								config, com.dmurph.tracking.JGoogleAnalyticsTracker.GoogleAnalyticsVersion.V_4_7_2);
-					tracker.trackPageView("AutoFirma", //$NON-NLS-1$
-							"AutoFirma", //$NON-NLS-1$
-							getIp());
-				} catch (final Exception e) {
-			    		LOGGER.warning("Error registrando datos en Google Analytics: " + e); //$NON-NLS-1$
-			    	}
-			}).start();
-				}
+       	LOGGER.info("Se ha configurado en el sistema que se omita la busqueda de actualizaciones de AutoFirma"); //$NON-NLS-1$	
+       	LOGGER.info("Se ha configurado en el sistema el no envio de estadísticas a Google Analitics");
+       	
 
        	// Propiedades especificas para Mac OS X
         if (Platform.OS.MACOSX.equals(Platform.getOS())) {
@@ -697,12 +668,7 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
     		}
         }
 
-    	// Comprobamos actualizaciones si estan habilitadas
-        if (updatesEnabled && PreferencesManager.getBoolean(PreferencesManager.PREFERENCE_GENERAL_UPDATECHECK)) {
-			Updater.checkForUpdates(null);
-		} else {
-			LOGGER.info("No se buscaran nuevas versiones de la aplicacion"); //$NON-NLS-1$
-		}
+		LOGGER.info("No se buscaran nuevas versiones de la aplicacion"); //$NON-NLS-1$		
 
     	try {
     		// Invocacion por protocolo
@@ -944,12 +910,8 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 
     static String getIp() throws IOException {
         final URL whatismyip = new URL(IP_DISCOVERY_AUTOMATION);
-		try (BufferedReader in = new BoundedBufferedReader(new InputStreamReader(whatismyip.openStream()), 1, // Solo
-																												// leemos
-																												// una
-																												// linea
-	            2048 // Maximo 2048 octetos en esa linea
-		);) {
+        // Solo leemos una linea,  Maximo 2048 octetos en esa linea
+		try (BufferedReader in = new BoundedBufferedReader(new InputStreamReader(whatismyip.openStream()), 1, 2048)) {
         	return in.readLine();
         }
     }
