@@ -23,17 +23,13 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
-import java.net.URL;
 import java.nio.channels.FileLock;
 import java.security.cert.X509Certificate;
 import java.util.List;
@@ -54,7 +50,6 @@ import javax.swing.JPanel;
 
 import es.gob.afirma.core.LogManager;
 import es.gob.afirma.core.LogManager.App;
-import es.gob.afirma.core.misc.BoundedBufferedReader;
 import es.gob.afirma.core.misc.Platform;
 import es.gob.afirma.core.misc.Platform.OS;
 import es.gob.afirma.core.ui.AOUIFactory;
@@ -103,8 +98,6 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 	 * Altura por defecto con la que se muestra inicialmente la pantalla principal.
 	 */
 	private static final int DEFAULT_WINDOW_HEIGHT = 580;
-
-	private static final String IP_DISCOVERY_AUTOMATION = "http://checkip.amazonaws.com"; //$NON-NLS-1$
 
 	private static final String SYSTEM_PROPERTY_DEBUG_FILE = "afirma_debug"; //$NON-NLS-1$
 
@@ -908,13 +901,6 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
     	}
     }
 
-    static String getIp() throws IOException {
-        final URL whatismyip = new URL(IP_DISCOVERY_AUTOMATION);
-        // Solo leemos una linea,  Maximo 2048 octetos en esa linea
-		try (BufferedReader in = new BoundedBufferedReader(new InputStreamReader(whatismyip.openStream()), 1, 2048)) {
-        	return in.readLine();
-        }
-    }
 
     /**
      * Devuelve el panel que actualmente muestra la aplicaci&oacute;n.
