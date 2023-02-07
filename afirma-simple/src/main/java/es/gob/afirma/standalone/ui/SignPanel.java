@@ -322,9 +322,9 @@ public final class SignPanel extends JPanel implements LoadDataFileListener, Sig
     		).execute();
 
     	// Cuidamos de no mostrar el dialogo cuando la tarea ya haya terminado
-   		if (this.taskIsRunning) {
-   			this.signWaitDialog.setVisible(true);
-   		}
+//   		if (this.taskIsRunning) {
+//   			this.signWaitDialog.setVisible(true);
+//   		}
     }
 
     @Override
