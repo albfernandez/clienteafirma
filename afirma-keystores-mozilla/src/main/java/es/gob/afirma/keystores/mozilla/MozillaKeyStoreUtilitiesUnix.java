@@ -59,6 +59,7 @@ final class MozillaKeyStoreUtilitiesUnix {
 		nssPaths.add(systemLibDir + "/nss"); //$NON-NLS-1$
 		nssPaths.add(systemLibDir);
 		nssPaths.add(systemLibDir + "/firefox"); //$NON-NLS-1$
+		nssPaths.add(systemLibDir + "/firefox-esr");//$NON-NLS-1$ 
 
 		// Preserve backwards-compatibility on https://github.com/ctt-gob-es/clienteafirma/issues/27#issuecomment-488402089
 		String firefoxVersion = searchLastFirefoxVersion(systemLibDir);
@@ -75,6 +76,7 @@ final class MozillaKeyStoreUtilitiesUnix {
 		}
 
 		nssPaths.add("/opt/firefox"); //$NON-NLS-1$
+		nssPaths.add("/opt/firefox-esr"); //$NON-NLS-1$
 
 		// Preserve backwards-compatibility on https://github.com/ctt-gob-es/clienteafirma/issues/27#issuecomment-488402089
 		if (isDirectory("/usr/lib" + javaArch)) { //$NON-NLS-1$
@@ -154,9 +156,12 @@ final class MozillaKeyStoreUtilitiesUnix {
 
 			// Tomamos lo numeros de version de firefox identificados
 			final List<String> firefoxVersions = new ArrayList<>();
-			for (final String filename : directoryLib.list()) {
-				if (filename.startsWith("firefox-")) { //$NON-NLS-1$
-					firefoxVersions.add(filename.replace("firefox-", "")); //$NON-NLS-1$ //$NON-NLS-2$
+			final String[] filenames = directoryLib.list();
+			if (filenames != null) {
+				for (final String filename : directoryLib.list()) {
+					if (filename.startsWith("firefox-")) { //$NON-NLS-1$
+						firefoxVersions.add(filename.replace("firefox-", "")); //$NON-NLS-1$ //$NON-NLS-2$
+					}
 				}
 			}
 
