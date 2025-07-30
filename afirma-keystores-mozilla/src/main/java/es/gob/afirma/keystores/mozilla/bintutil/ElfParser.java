@@ -128,9 +128,11 @@ public final class ElfParser {
 		if (elf == null) {
 			return false;
 		}
-		final ElfMachineType a;
+		final ElfMachineType elfMachineType;
+		final Platform.MACHINE machineType;
 		try {
-			a = getMachineType(elf);
+			elfMachineType = getMachineType(elf);
+			machineType = Platform.getMachineType();
 		}
 		catch (final IOException e) {
 			Logger.getLogger("es.gob.afirma").warning( //$NON-NLS-1$
@@ -138,12 +140,13 @@ public final class ElfParser {
 			);
 			return false;
 		}
-		return "64".equals(Platform.getJavaArch()) && //$NON-NLS-1$
-					Platform.MACHINE.AMD64.equals(Platform.getMachineType()) &&
-						ElfMachineType.AMD64.equals(a) ||
-			   "32".equals(Platform.getJavaArch()) && //$NON-NLS-1$
-			   		(Platform.MACHINE.X86.equals(Platform.getMachineType()) || Platform.MACHINE.AMD64.equals(Platform.getMachineType())) && // 32 puede estar en maquina de 32 o de 64 bits
-		   				ElfMachineType.X86.equals(a);
+		
+		boolean java64 = "64".equals(Platform.getJavaArch());
+		boolean java32 = "32".equals(Platform.getJavaArch());
+		return (java64 && Platform.MACHINE.AMD64 == machineType && ElfMachineType.AMD64 == elfMachineType) || //$NON-NLS-1$
+			   (java64 && Platform.MACHINE.ARM64 == machineType && ElfMachineType.ARM64 == elfMachineType) || //$NON-NLS-1$
+			   (java32 && (Platform.MACHINE.AMD64 == machineType || Platform.MACHINE.X86 == machineType) && ElfMachineType.X86 == elfMachineType); //$NON-NLS-1$
+				// 32 puede estar en máquina de 32 o de 64 bits
 	}
 
 }
