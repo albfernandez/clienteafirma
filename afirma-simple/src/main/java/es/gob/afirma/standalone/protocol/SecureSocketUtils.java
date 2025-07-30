@@ -23,7 +23,7 @@ class SecureSocketUtils {
 	private static final String CTPASS = "654321"; //$NON-NLS-1$
 	private static final String KEYSTORE_NAME = "autofirma.pfx"; //$NON-NLS-1$
 	private static final String PKCS12 = "PKCS12"; //$NON-NLS-1$
-	private static final String SSLCONTEXT = "TLSv1"; //$NON-NLS-1$
+	private static final String SSLCONTEXT = "TLSv1.2"; //$NON-NLS-1$
 
 	/**
 	 * Obtiene un contexto SSL para la apertura de un socket/websocket seguro.
