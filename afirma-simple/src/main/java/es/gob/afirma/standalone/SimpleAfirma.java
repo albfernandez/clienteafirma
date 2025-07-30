@@ -122,8 +122,6 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 	 */
 	private static final int DEFAULT_WINDOW_HEIGHT = 580;
 
-	private static final String IP_DISCOVERY_AUTOMATION = "http://checkip.amazonaws.com"; //$NON-NLS-1$
-
 	private static final String SYSTEM_PROPERTY_DEBUG_FILE = "afirma_debug"; //$NON-NLS-1$
 
 	private static final String SYSTEM_PROPERTY_DEBUG_LEVEL = "afirma_debug_level"; //$NON-NLS-1$
@@ -157,7 +155,7 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 	 * Indica si esta permitida la b&uacute;squeda de actualizaciones de la
 	 * aplicaci&oacute;n.
 	 */
-    private static boolean updatesEnabled = true;
+    private static boolean updatesEnabled = false;
 
 	/**
 	 * Variable de entorno que hay que establecer (a nivel de sistema operativo o
@@ -935,22 +933,7 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
         }
 
 
-       	// Comprobamos si es necesario buscar actualizaciones
-       	if (updatesEnabled) { // Comprobamos si se desactivaron desde fuera
-			updatesEnabled = !Boolean.getBoolean(AVOID_UPDATE_CHECK)
-					&& !Boolean.parseBoolean(System.getenv(AVOID_UPDATE_CHECK_ENV));
-       		if (!updatesEnabled) {
-				LOGGER.info("Se ha configurado en el sistema que se omita la busqueda de actualizaciones de Autofirma" //$NON-NLS-1$
-       					);
-       		}
-       	}
-
-    	// Comprobamos actualizaciones si estan habilitadas
-        if (updatesEnabled && PreferencesManager.getBoolean(PreferencesManager.PREFERENCE_GENERAL_UPDATECHECK)) {
-			Updater.checkForUpdates(null);
-		} else {
-			LOGGER.info("No se buscaran nuevas versiones de la aplicacion"); //$NON-NLS-1$
-		}
+		LOGGER.info("No se buscaran nuevas versiones de la aplicación"); //$NON-NLS-1$
 
     	try {
     		// Invocacion por protocolo
@@ -1201,17 +1184,6 @@ public final class SimpleAfirma implements PropertyChangeListener, WindowListene
 		} catch (final Exception e) {
     		LOGGER.warning("No se pudo configurar el log en fichero: " + e); //$NON-NLS-1$
     	}
-    }
-
-    static String getIp() throws IOException {
-        final URL whatismyip = new URL(IP_DISCOVERY_AUTOMATION);
-		try (BufferedReader in = new BoundedBufferedReader(
-				new InputStreamReader(whatismyip.openStream()),
-				1, // Solo leemos una linea
-	            2048 // Maximo 2048 octetos en esa linea
-		);) {
-        	return in.readLine();
-        }
     }
 
     public static PluginsManager getPluginsManager() {
