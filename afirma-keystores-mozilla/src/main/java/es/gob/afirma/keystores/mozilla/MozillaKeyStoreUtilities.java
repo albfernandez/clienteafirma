@@ -523,9 +523,17 @@ public final class MozillaKeyStoreUtilities {
 		if (Platform.OS.MACOSX.equals(Platform.getOS())) {
 			return Platform.getUserHome() + "/Library/Application Support/Firefox/profiles.ini"; //$NON-NLS-1$
 		}
+		
 		// Linux / UNIX
+		if (new File(Platform.getUserHome() + "/snap/firefox/common/.config/mozilla/firefox/profiles.ini").isFile()) { //$NON-NLS-1$
+			return Platform.getUserHome() + "/snap/firefox/common/.config/mozilla/firefox/profiles.ini"; //$NON-NLS-1$
+		}
+		
 		if (new File(Platform.getUserHome() + "/snap/firefox/common/.mozilla/firefox/profiles.ini").isFile()) { //$NON-NLS-1$
 			return Platform.getUserHome() + "/snap/firefox/common/.mozilla/firefox/profiles.ini"; //$NON-NLS-1$
+		}
+		if (new File(Platform.getUserHome() + "/.config/mozilla/firefox/profiles.ini").isFile()) { //$NON-NLS-1$
+			return new File(Platform.getUserHome() + "/.config/mozilla/firefox/profiles.ini"); //$NON-NLS-1$
 		}
 		return Platform.getUserHome() + "/.mozilla/firefox/profiles.ini"; //$NON-NLS-1$
 	}
