@@ -533,7 +533,7 @@ public final class MozillaKeyStoreUtilities {
 			return Platform.getUserHome() + "/snap/firefox/common/.mozilla/firefox/profiles.ini"; //$NON-NLS-1$
 		}
 		if (new File(Platform.getUserHome() + "/.config/mozilla/firefox/profiles.ini").isFile()) { //$NON-NLS-1$
-			return new Platform.getUserHome() + "/.config/mozilla/firefox/profiles.ini"; //$NON-NLS-1$
+			return Platform.getUserHome() + "/.config/mozilla/firefox/profiles.ini"; //$NON-NLS-1$
 		}
 		return Platform.getUserHome() + "/.mozilla/firefox/profiles.ini"; //$NON-NLS-1$
 	}
